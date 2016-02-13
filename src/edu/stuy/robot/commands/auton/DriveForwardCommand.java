@@ -1,5 +1,8 @@
 package edu.stuy.robot.commands.auton;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.sin;
+
 import edu.stuy.robot.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,7 +21,11 @@ public class DriveForwardCommand extends Command {
 	@Override
 	protected void initialize() {
 		startTime = Timer.getFPGATimestamp();
+	}
 
+	@Override
+	protected void execute() {
+		Robot.drivetrain.tankDrive(1, 1);
 	}
 
 	@Override
@@ -36,11 +43,6 @@ public class DriveForwardCommand extends Command {
 	protected void end() {
 		Robot.drivetrain.stop();
 		Robot.drivetrain.resetEncoders();
-	}
-
-	@Override
-	protected void execute() {
-		Robot.drivetrain.tankDrive(1, 1);
 	}
 
 	@Override

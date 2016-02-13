@@ -3,9 +3,11 @@ package edu.stuy.robot.subsystems;
 import static edu.stuy.robot.RobotMap.ACQUIRER_MOTOR_CHANNEL;
 import static edu.stuy.robot.RobotMap.ACQUIRER_POTENTIOMETER_CHANNEL;
 
+import edu.stuy.robot.RobotMap;
 import edu.stuy.robot.commands.AcquirerStopCommand;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
@@ -13,7 +15,10 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  *
  */
 public class Acquirer extends Subsystem {
-
+	double beforeTime;
+	double changeHelperX;
+	double changeHelperY;
+	double MAX_DECELERATION;
 	private CANTalon acquirerMotor;
 	private Potentiometer potentiometer;
 	private String outString = "";
@@ -61,5 +66,27 @@ public class Acquirer extends Subsystem {
 	public void lowerAcquirerToDrivingPosition() {
 		// TODO Auto-generated method stub
 		acquirerMotor.set(0.25);
+	}
+
+	private double getSlope(double ax, double ay, double bx, double by) {
+		return (by - ay) / (bx - ax);
+	}
+
+	private double getTangent(double ax, double ay) {
+		double j = getSlope(changeHelperX, changeHelperY, ax, ay);
+		beforeTime = changeHelperX;
+		// changeHelperX = ax;
+		// changeHelperY = ay;
+		return j;
+	}
+
+	private double decelerate(double currentTime, double currentSpeed) {
+		double j = getTangent(currentTime, currentSpeed);
+		if (-RobotMap.EPSILON < j && j < RobotMap.EPSILON) {
+			System.out.println("worked");
+		}
+		j = j - (MAX_DECELERATION * (currentTime - beforeTime));
+		j = j * (currentTime - beforeTime);
+		return currentSpeed + j;
 	}
 }
