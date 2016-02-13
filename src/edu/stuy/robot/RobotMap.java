@@ -54,4 +54,6 @@ public interface RobotMap {
 	int LEFT_ENCODER_CHANNEL_OFF = 10;
 	int RIGHT_ENCODER_CHANNEL_OFF = 10;
 	double WHEEL_DIAMETER_DRIVETRAIN = 4;
+
+	double EPSILON = 0.0000000000001;
 }
