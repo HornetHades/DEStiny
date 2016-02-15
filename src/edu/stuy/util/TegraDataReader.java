@@ -2,22 +2,24 @@ package edu.stuy.util;
 
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class TegraDataReader {
     private SerialPort serialPort;
+    private AtomicReference<double[]> vectorData;
+    public static final TegraDataReader reader = new TegraDataReader();
 
-    public TegraDataReader() {
+    private TegraDataReader() {
         SerialPort.Port p = SerialPort.Port.kOnboard;
         serialPort = new SerialPort(9600, p, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
     }
 
     public double[] readVector() {
-        return readVector(null);
-    }
-
-    public double[] readVector(PrintWriter writer) {
+        return vectorData.get();
+    }   
+    public void readVectorFromSerialPort(PrintWriter writer) {
         // Treat writer like an Option type. It exists for testing.
         boolean verbose = writer != null;
 
@@ -48,9 +50,8 @@ public class TegraDataReader {
             // Three +Infinitys is the flag for no goal found
             // There is only one double representation of
             // positive infinity
-            return null;
         }
-        return vector;
+        vectorData.set(vector);
     }
 
     public void closePort() {

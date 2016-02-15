@@ -1,6 +1,7 @@
 package edu.stuy.robot;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 import edu.stuy.robot.commands.auton.GoOverMoatCommand;
 import edu.stuy.robot.commands.auton.GoOverRampartsCommand;
@@ -17,6 +18,7 @@ import edu.stuy.robot.subsystems.Feeder;
 import edu.stuy.robot.subsystems.Shooter;
 import edu.stuy.robot.subsystems.Sonar;
 import edu.stuy.util.AutoGearShiftingThread;
+import edu.stuy.util.CvDataRetrievalThread;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -58,6 +60,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		setupAutonChooser();
 		new Thread(new AutoGearShiftingThread()).start();
+		new Thread(new CvDataRetrievalThread()).start();
 	}
 
 	public void disabledPeriodic() {

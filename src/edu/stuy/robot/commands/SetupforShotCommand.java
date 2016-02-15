@@ -27,7 +27,7 @@ public class SetupforShotCommand extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// Robot.shooter.setSpeedTesting(0.7);
-		reader = new TegraDataReader();
+		reader = TegraDataReader.reader;
 		goalInFrame = true; // Assume it is there until we see otherwise
 	}
 
