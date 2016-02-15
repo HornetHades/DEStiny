@@ -16,6 +16,7 @@ import edu.stuy.robot.subsystems.DropDown;
 import edu.stuy.robot.subsystems.Feeder;
 import edu.stuy.robot.subsystems.Shooter;
 import edu.stuy.robot.subsystems.Sonar;
+import edu.stuy.util.AutoGearShiftingThread;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -56,6 +57,7 @@ public class Robot extends IterativeRobot {
 		sonar = new Sonar();
 		oi = new OI();
 		setupAutonChooser();
+		new Thread(new AutoGearShiftingThread()).start();
 	}
 
 	public void disabledPeriodic() {
