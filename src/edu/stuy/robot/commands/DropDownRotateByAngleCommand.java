@@ -14,7 +14,6 @@ public class DropDownRotateByAngleCommand extends Command {
 	private double startTime;
 	private double angle;
 	private double prevTime;
-	private double counterDuration;
 	// "Backup" duration.
 
 	private double angleSum;
@@ -31,8 +30,6 @@ public class DropDownRotateByAngleCommand extends Command {
     	targetDuration = rotationToTime(angle, rpm);
     	startTime = Timer.getFPGATimestamp();
     	prevTime = startTime;
-
-    	counterDuration = targetDuration;
     	angleSum = 0;
 
     	Robot.dropdown.go(rpm);
@@ -41,7 +38,6 @@ public class DropDownRotateByAngleCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double rpmReal = Robot.dropdown.getSpeed();
-    	counterDuration = rotationToTime(angle - angleSum, rpmReal);
     	double timeElapsed = (Timer.getFPGATimestamp() - prevTime);
     	angleSum += 360 * rpmReal * timeElapsed / 60;
 
