@@ -71,6 +71,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Cheval", 0);
 		SmartDashboard.putNumber("Portcullis", 0); // complex
 
+		// Arm Testing numbers:
+		SmartDashboard.putNumber("Arm RPM", 0);
+		SmartDashboard.putNumber("Arm Rotation", 0);
+
 		// Potentiometer
 		double initialVoltage = 287.5;
 		double finalVoltage = 295.5;

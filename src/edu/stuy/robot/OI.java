@@ -5,6 +5,7 @@ import static edu.stuy.robot.RobotMap.OPERATOR_GAMEPAD;
 import edu.stuy.robot.commands.AcquirerAcquireCommand;
 import edu.stuy.robot.commands.AcquirerDeacquireCommand;
 import edu.stuy.robot.commands.DisableAutoGearShiftCommand;
+import edu.stuy.robot.commands.DropDownRotateByAngleCommand;
 import edu.stuy.robot.commands.EnableAutoGearShiftCommand;
 import edu.stuy.robot.commands.HoodToggleCommand;
 import edu.stuy.robot.commands.HopperRunCommand;
@@ -68,6 +69,7 @@ public class OI {
 		operatorGamepad.getDPadRight().whenPressed(new ShooterToggleCommand());
 		operatorGamepad.getDPadDown().whenPressed(new ShooterToggleCommand());
 		operatorGamepad.getTopButton().whenPressed(new HoodToggleCommand());
+		operatorGamepad.getLeftAnalogButton().whenPressed(new DropDownRotateByAngleCommand());
 		operatorGamepad.getRightAnalogButton().whenPressed(new DropDownMoveToAngleCommand(35));
 	}
 }

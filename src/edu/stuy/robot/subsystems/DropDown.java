@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
+/** DropDown BACKUP
+ * This is a modified version of the DropDown which is used
+ * for pid-tuning and testing
  *
  */
 public class DropDown extends Subsystem {
 
 	private CANTalon dropDownMotor;
 	private Potentiometer potentiometer;
+	private double test_speed = 0.2;
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
