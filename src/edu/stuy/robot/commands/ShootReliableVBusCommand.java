@@ -25,6 +25,19 @@ public class ShootReliableVBusCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        if (Robot.oi.testGamepad.getDPadDown().get()) {
+            desiredSpeed = 0.0;
+        } else if (Robot.oi.testGamepad.getDPadLeft().get()) {
+            desiredSpeed = 3200.0;
+        } else if (Robot.oi.testGamepad.getDPadUp().get()) {
+            desiredSpeed = 3300.0;
+        } else if (Robot.oi.testGamepad.getDPadRight().get()) {
+            desiredSpeed = 3400.0;
+        } else if (Robot.oi.testGamepad.getLeftButton().get()) {
+            desiredSpeed = 3500.0;
+        } else if (Robot.oi.testGamepad.getTopButton().get()) {
+            desiredSpeed = 3600.0;
+        }
         if (Math.abs(Robot.shooter.getCurrentMotorSpeedInRPM() - desiredSpeed * SHOOTER_ENCODER_MAXSPEED) < 150.0) {
             if (Robot.shooter.getCurrentMotorSpeedInRPM() - desiredSpeed * SHOOTER_ENCODER_MAXSPEED > 0.0) {
                 currentSpeed -= 0.05;

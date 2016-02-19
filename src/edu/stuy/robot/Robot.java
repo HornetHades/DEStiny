@@ -155,12 +155,7 @@ public class Robot extends IterativeRobot {
 
 		// Thresholds:
 		SmartDashboard.putNumber("Gear Shifting Threshold", 40);
-		
-		//ShooterPID
-		SmartDashboard.putNumber("Shooter F", 0);
-		SmartDashboard.putNumber("Shooter P", 0);
-		SmartDashboard.putNumber("Shooter I", 0);
-		SmartDashboard.putNumber("Shooter D", 0);
+
 	}
 
 	/**

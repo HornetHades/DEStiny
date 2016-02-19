@@ -28,10 +28,10 @@ public class Shooter extends Subsystem {
         shooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
         shooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
         shooterMotor.setProfile(0);
-        shooterMotor.setF(SmartDashboard.getNumber("Shooter F"));
-        shooterMotor.setP(SmartDashboard.getNumber("Shooter P"));
-        shooterMotor.setI(SmartDashboard.getNumber("Shooter I"));
-        shooterMotor.setD(SmartDashboard.getNumber("Shoooter D"));
+        shooterMotor.setF(0.5);
+        shooterMotor.setP(0.5);
+        shooterMotor.setI(0.1);
+        shooterMotor.setD(0.1);
         shooterMotor.changeControlMode(TalonControlMode.Speed);
         on = false;
     }
