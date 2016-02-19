@@ -63,10 +63,12 @@ public class OI {
 		operatorGamepad.getLeftBumper().whileHeld(new HopperRunCommand(false));
 		operatorGamepad.getRightTrigger().whileHeld(new AcquirerAcquireCommand());
 		operatorGamepad.getRightBumper().whileHeld(new AcquirerDeacquireCommand());
+
 		operatorGamepad.getDPadLeft().whenPressed(new ShooterToggleCommand());
 		operatorGamepad.getDPadUp().whenPressed(new ShooterToggleCommand());
 		operatorGamepad.getDPadRight().whenPressed(new ShooterToggleCommand());
 		operatorGamepad.getDPadDown().whenPressed(new ShooterToggleCommand());
+
 		operatorGamepad.getTopButton().whenPressed(new HoodToggleCommand());
 		operatorGamepad.getRightAnalogButton().whenPressed(new DropDownMoveToAngleCommand(35));
 	}
