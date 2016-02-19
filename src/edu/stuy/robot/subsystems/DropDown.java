@@ -37,6 +37,10 @@ public class DropDown extends Subsystem {
 		dropDownMotor.set(speed);
 	}
 
+	public double getSpeed() {
+		return dropDownMotor.getSpeed();
+	}
+
 	public void stop() {
 		dropDownMotor.set(0.0);
 	}

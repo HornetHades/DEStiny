@@ -12,6 +12,12 @@ public class DropDownRotateByAngleCommand extends Command {
 	private double targetDuration;
 	private double rpm;
 	private double startTime;
+	private double angle;
+	private double prevTime;
+	private double counterDuration;
+	// "Backup" duration.
+
+	private double angleSum;
 	
     public DropDownRotateByAngleCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -21,19 +27,31 @@ public class DropDownRotateByAngleCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	rpm = SmartDashboard.getNumber("Arm RPM");
-    	double angle = SmartDashboard.getNumber("Arm Rotation");
+    	angle = SmartDashboard.getNumber("Arm Rotation");
     	targetDuration = rotationToTime(angle, rpm);
     	startTime = Timer.getFPGATimestamp();
+    	prevTime = startTime;
+
+    	counterDuration = targetDuration;
+    	angleSum = 0;
+
     	Robot.dropdown.go(rpm);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	double rpmReal = Robot.dropdown.getSpeed();
+    	counterDuration = rotationToTime(angle - angleSum, rpmReal);
+    	double timeElapsed = (Timer.getFPGATimestamp() - prevTime);
+    	angleSum += 360 * rpmReal * timeElapsed / 60;
+
+    	prevTime = Timer.getFPGATimestamp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - startTime) >= targetDuration);
+        return ( ((Timer.getFPGATimestamp() - startTime) >= targetDuration) 
+        		&& (angleSum >= angle) );
     }
 
     // Called once after isFinished returns true
