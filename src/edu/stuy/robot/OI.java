@@ -2,6 +2,7 @@ package edu.stuy.robot;
 
 import static edu.stuy.robot.RobotMap.DRIVER_GAMEPAD;
 import static edu.stuy.robot.RobotMap.OPERATOR_GAMEPAD;
+
 import edu.stuy.robot.commands.AcquirerAcquireCommand;
 import edu.stuy.robot.commands.AcquirerDeacquireCommand;
 import edu.stuy.robot.commands.DisableAutoGearShiftCommand;
@@ -12,12 +13,9 @@ import edu.stuy.robot.commands.HoodDownCommand;
 import edu.stuy.robot.commands.HoodUpCommand;
 import edu.stuy.robot.commands.HopperRunCommand;
 import edu.stuy.robot.commands.JionDriveCommand;
-import edu.stuy.robot.commands.MoveIntoShotRangeCommand;
-import edu.stuy.robot.commands.RotateToGoalCommand;
-import edu.stuy.robot.commands.ShooterToggleCommand;
-import edu.stuy.robot.commands.ShooterSetHighCommand;
 import edu.stuy.robot.commands.ShooterSetLayupCommand;
 import edu.stuy.robot.commands.ShooterSetMaxSpeed;
+import edu.stuy.robot.commands.ShooterSetOutWorksSpeed;
 import edu.stuy.robot.commands.ShooterStopCommand;
 import edu.stuy.robot.commands.auton.DropDownMoveToAngleCommand;
 import edu.stuy.util.Gamepad;
@@ -73,7 +71,7 @@ public class OI {
         operatorGamepad.getRightTrigger().whileHeld(new AcquirerAcquireCommand());
         operatorGamepad.getRightBumper().whileHeld(new AcquirerDeacquireCommand());
 
-        operatorGamepad.getDPadUp().whenPressed(new ShooterSetHighCommand());
+        operatorGamepad.getDPadUp().whenPressed(new ShooterSetOutWorksSpeed());
         operatorGamepad.getDPadLeft().whenPressed(new ShooterSetLayupCommand());
         operatorGamepad.getDPadRight().whenPressed(new ShooterSetMaxSpeed());
         operatorGamepad.getDPadDown().whenPressed(new ShooterStopCommand());

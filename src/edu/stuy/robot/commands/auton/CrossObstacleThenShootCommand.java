@@ -1,15 +1,10 @@
 package edu.stuy.robot.commands.auton;
 
-import static edu.stuy.robot.RobotMap.SLOT_ANGLE_TO_GOAL_2;
-import static edu.stuy.robot.RobotMap.SLOT_ANGLE_TO_GOAL_3;
-import static edu.stuy.robot.RobotMap.SLOT_ANGLE_TO_GOAL_4;
-import static edu.stuy.robot.RobotMap.SLOT_ANGLE_TO_GOAL_5;
 import static edu.stuy.robot.RobotMap.DISTANCE_TO_WALL;
 
-import edu.stuy.robot.RobotMap;
 import edu.stuy.robot.commands.HopperRunCommand;
 import edu.stuy.robot.commands.RotateToGoalCommand;
-import edu.stuy.robot.commands.ShooterSetHighCommand;
+import edu.stuy.robot.commands.ShooterSetOutWorksSpeed;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -45,7 +40,8 @@ public class CrossObstacleThenShootCommand extends CommandGroup {
         addSequential(new RotateDrivetrainCommand());
         // TODO: Fix RotateDrivetrainCommand to work once we have PID tuning
         addSequential(new RotateToGoalCommand());
-        addSequential(new ShooterSetHighCommand());
+        addSequential(new ShooterSetOutWorksSpeed());
+
         addSequential(new HopperRunCommand(true));
     }
 }
