@@ -9,6 +9,7 @@ import static edu.stuy.robot.RobotMap.CAMERA_VIEWING_ANGLE_Y;
 import static edu.stuy.robot.RobotMap.CAMERA_TILT_ANGLE;
 import static edu.stuy.robot.RobotMap.HIGH_GOAL_HEIGHT;
 
+import edu.stuy.robot.commands.auton.CrossObstacleThenSonarCommand;
 import edu.stuy.robot.commands.auton.GoOverMoatCommand;
 import edu.stuy.robot.commands.auton.GoOverRampartsCommand;
 import edu.stuy.robot.commands.auton.GoOverRockWallCommand;
@@ -132,8 +133,7 @@ public class Robot extends IterativeRobot {
         // Set up the auton chooser
         setupAutonChooser();
         setupAutonPositionChooser();
-
-        /**/
+        setupShootChooser();
     }
 
     /**
@@ -148,8 +148,8 @@ public class Robot extends IterativeRobot {
         autonPositionChooser.addObject("5", 5);
         SmartDashboard.putData("Auton Position", autonPositionChooser);
     }
-    
-    private void shouldShootAfterCross() {
+
+    private void setupShootChooser() {
         autonShootChooser = new SendableChooser();
         autonShootChooser.addDefault("No", false);
         autonShootChooser.addObject("Yes", true);
@@ -196,7 +196,7 @@ public class Robot extends IterativeRobot {
         Boolean autonShoot = (Boolean) autonShootChooser.getSelected();
         autonomousCommand = selectedCommand;
         if (autonShoot) {
-            new ShootOuterworkCommand(autonomousCommand).start();
+            new CrossObstacleThenSonarCommand(autonomousCommand, autonPosition).start();
         } else {
             autonomousCommand.start();
         }
