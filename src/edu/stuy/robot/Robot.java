@@ -4,6 +4,7 @@ import static edu.stuy.robot.RobotMap.JONAH_ID;
 import static edu.stuy.robot.RobotMap.SHOOTER_SPEED_LABEL;
 import static edu.stuy.robot.RobotMap.YUBIN_ID;
 
+import edu.stuy.robot.commands.RotateToAimCommand;
 import edu.stuy.robot.commands.auton.GoOverMoatCommand;
 import edu.stuy.robot.commands.auton.GoOverRampartsCommand;
 import edu.stuy.robot.commands.auton.GoOverRockWallCommand;
@@ -82,7 +83,7 @@ public class Robot extends IterativeRobot {
         chooseOperator();
 
         // Initialize all the subsystems
-        drivetrain = new Drivetrain();
+        /*drivetrain = new Drivetrain();
         acquirer = new Acquirer();
         dropdown = new DropDown();
         hopper = new Hopper();
@@ -92,10 +93,10 @@ public class Robot extends IterativeRobot {
         cvSignalLight = new BlueSignalLight();
         flashlight = new Flashlight();
 
-        oi = new OI();
+        oi = new OI();*/
         vision = new StuyVisionModule();
 
-        dontStartCommands = false;
+        /*dontStartCommands = false;
 
         drivetrain.setDrivetrainBrakeMode(true);
         shooter.setShooterBrakeMode(false);
@@ -127,7 +128,7 @@ public class Robot extends IterativeRobot {
 
         // Set up the auton chooser
         setupAutonChooser();
-        setupAutonPositionChooser();
+        setupAutonPositionChooser();*/
     }
 
     /**
@@ -181,13 +182,13 @@ public class Robot extends IterativeRobot {
         int autonPosition = (Integer) autonPositionChooser.getSelected();
         autonomousCommand = selectedCommand;
         autonomousCommand.start();
-        Robot.drivetrain.resetEncoders();
+        //Robot.drivetrain.resetEncoders();
         autonStartTime = Timer.getFPGATimestamp();
     }
 
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        if (debugMode) {
+        /*if (debugMode) {
             SmartDashboard.putNumber("drivetrain left encoder", Robot.drivetrain.getLeftEncoder());
             SmartDashboard.putNumber("drivetrain right encoder", Robot.drivetrain.getRightEncoder());
             SmartDashboard.putNumber("Max distance of drivetrain encoders", Robot.drivetrain.getDistance());
@@ -199,9 +200,10 @@ public class Robot extends IterativeRobot {
         if (Timer.getFPGATimestamp() - autonStartTime > 14) {
             Robot.shooter.stop();
             Robot.hopper.stop();
-        }
+        }*/
     }
 
+    private long lastCVRead;
     public void teleopInit() {
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -211,9 +213,10 @@ public class Robot extends IterativeRobot {
             autonomousCommand.cancel();
         }
         debugMode = (Boolean) debugChooser.getSelected();
-        Robot.drivetrain.resetEncoders();
+        lastCVRead = System.currentTimeMillis(); // Have it pause right at the beginning
+        //Robot.drivetrain.resetEncoders();
         // This is here and also in autonomus periodic as a safety measure
-        Robot.shooter.stop();
+        //Robot.shooter.stop();
     }
 
     /**
@@ -228,6 +231,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        if (System.currentTimeMillis() - lastCVRead > 2000) {
+            (new RotateToAimCommand()).start();
+            lastCVRead = System.currentTimeMillis();
+        }
         if (debugMode) {
             // SmartDashboard.putNumber("gyro",
             // Robot.drivetrain.getGyroAngle());
@@ -252,8 +259,8 @@ public class Robot extends IterativeRobot {
             // Thresholds:
             SmartDashboard.putNumber("Gear Shifting Threshold", 40);
         }
-        SmartDashboard.putNumber("potentiometer", Robot.dropdown.getAngle());
-        SmartDashboard.putNumber("Potentiometer voltage", Robot.dropdown.getVoltage());
+        //SmartDashboard.putNumber("potentiometer", Robot.dropdown.getAngle());
+        //SmartDashboard.putNumber("Potentiometer voltage", Robot.dropdown.getVoltage());
 
     }
 

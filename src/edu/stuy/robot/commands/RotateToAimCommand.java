@@ -4,6 +4,8 @@ import static edu.stuy.robot.RobotMap.CAMERA_FRAME_PX_HEIGHT;
 import static edu.stuy.robot.RobotMap.CAMERA_VIEWING_ANGLE_X;
 import static edu.stuy.robot.RobotMap.MAX_DEGREES_OFF_AUTO_AIMING;
 
+import java.util.Arrays;
+
 import edu.stuy.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,41 +25,56 @@ public class RotateToAimCommand extends Command {
     public RotateToAimCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.drivetrain);
+        //requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.drivetrain.resetGyro();
+        //Robot.drivetrain.resetGyro();
+        long start = System.currentTimeMillis();
         double[] reading = Robot.vision.processImage();
+        System.out.println("Image processing took: " + (System.currentTimeMillis() - start) + "ms");
         if (reading == null) {
             goalInFrame = false;
+            System.out.println("READING WAS NULL");
         } else {
+            System.out.println("READING: " + Arrays.toString(reading));
             desiredAngle = pxOffsetToDegrees(reading[0]);
+            System.out.println("ANGLE: " + desiredAngle);
         }
-        priorGearShiftState = Robot.drivetrain.gearUp;
-        Robot.drivetrain.manualGearShift(true);
+        //priorGearShiftState = Robot.drivetrain.gearUp;
+        //Robot.drivetrain.manualGearShift(true);
+    }
+
+    private double howFarHaveWeCome() {
+        if (desiredAngle < 0) {
+            return (360 - Robot.drivetrain.getGyroAngle()) / desiredAngle;
+        } else {
+            return Robot.drivetrain.getGyroAngle() / desiredAngle;
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (Robot.oi.driverGamepad.getRightButton().get()) {
+        /*if (Robot.oi.driverGamepad.getRightButton().get()) {
             forceStopped = true;
             return;
         }
 
         // Simplicity: double speed = 0.5;
-        double speed = 0.9 - 0.5 * Robot.drivetrain.getGyroAngle() / desiredAngle;
+        double speed = 0.9 - 0.5 * howFarHaveWeCome();
         // right is negative when turning right
         if (desiredAngle < 0) {
             Robot.drivetrain.tankDrive(-speed, speed);
         } else {
             Robot.drivetrain.tankDrive(speed, -speed);
-        }
+        }*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        return true;
+        /*
         // When no more can or should be done:
         if (forceStopped || !goalInFrame) {
             Robot.cvSignalLight.setOff();
@@ -76,13 +93,14 @@ public class RotateToAimCommand extends Command {
         boolean onTarget = Math.abs(degsOff) < MAX_DEGREES_OFF_AUTO_AIMING;
         Robot.cvSignalLight.set(onTarget);
         return onTarget;
+        */
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        Robot.drivetrain.tankDrive(0.0, 0.0);
+        //Robot.drivetrain.tankDrive(0.0, 0.0);
         // Set drivetrain gearshift to how it was before aiming
-        Robot.drivetrain.manualGearShift(priorGearShiftState);
+        //Robot.drivetrain.manualGearShift(priorGearShiftState);
     }
 
     // Called when another command which requires one or more of the same
